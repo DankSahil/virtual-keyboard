@@ -57,7 +57,7 @@ jobs:
     env:
       Solution_Name: Vkey.sln
       Wap_Project_Directory: Vkey
-      Wap_Project_Path: Vkey\Vkey.wapproj
+      Wap_Project_Path: Vkey\Vkey.vbproj
 
     steps:
     - name: Checkout
@@ -81,7 +81,7 @@ jobs:
 
     # Build the solution with platform set to Any CPU
     - name: Build solution
-      run: msbuild $env:Solution_Name /p:Configuration=$env:Configuration /p:Platform="Any CPU" /m:1
+     # run: msbuild $env:Solution_Name /p:Configuration=$env:Configuration /p:Platform="Any CPU" /m:1
 
     # (Optional) Execute unit tests if you have a test project
     #- name: Execute unit tests
