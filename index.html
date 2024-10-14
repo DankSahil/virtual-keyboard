@@ -1,11 +1,88 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>My Virtual Keyboard</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Keyboard Application</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            text-align: center;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            margin-top: 60px;
+        }
+
+        h1 {
+            color: #4CAF50;
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 18px;
+            line-height: 1.6;
+            color: #555;
+        }
+
+        .download-btn {
+            display: inline-block;
+            padding: 12px 24px;
+            font-size: 18px;
+            background-color: #4CAF50;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .download-btn:hover {
+            background-color: #45a049;
+        }
+
+        .footer {
+            margin-top: 40px;
+            font-size: 14px;
+            color: #777;
+        }
+        
+        .screenshot {
+            width: 100%;
+            height: auto;
+            margin-top: 30px;
+            border-radius: 5px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
 </head>
 <body>
-    <h1>Welcome to My Virtual Keyboard Application</h1>
-    <p>Click the link below to download the application:</p>
-    <a href="Vkey.exe" download>Download Virtual Keyboard Application</a>
+    <div class="container">
+        <h1>Virtual Keyboard Application</h1>
+        <p>
+            Welcome to the Virtual Keyboard Application! This is a powerful and flexible virtual keyboard 
+            tool that allows you to interact with a customizable keyboard interface directly on your system.
+        </p>
+
+        <a href="Vkey..exe" download class="download-btn">Download Virtual Keyboard</a>
+
+        <!-- You can add a screenshot of the virtual keyboard here -->
+        <img src="virtualKeyboard.png" alt="Virtual Keyboard" class="screenshot">
+
+        <div class="footer">
+            <p>&copy; 2024 Virtual Keyboard Project. All rights reserved.</p>
+        </div>
+    </div>
 </body>
 </html>
