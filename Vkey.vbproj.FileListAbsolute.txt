@@ -1,0 +1,16 @@
+C:\Users\ANT VALUE\source\repos\Vkey\bin\Debug\Vkey.exe.config
+C:\Users\ANT VALUE\source\repos\Vkey\bin\Debug\Vkey.exe
+C:\Users\ANT VALUE\source\repos\Vkey\bin\Debug\Vkey.pdb
+C:\Users\ANT VALUE\source\repos\Vkey\bin\Debug\Vkey.xml
+C:\Users\ANT VALUE\source\repos\Vkey\obj\Debug\Vkey.vbproj.AssemblyReference.cache
+C:\Users\ANT VALUE\source\repos\Vkey\obj\Debug\Vkey.Form1.resources
+C:\Users\ANT VALUE\source\repos\Vkey\obj\Debug\Vkey.Resources.resources
+C:\Users\ANT VALUE\source\repos\Vkey\obj\Debug\Vkey.vbproj.GenerateResource.cache
+C:\Users\ANT VALUE\source\repos\Vkey\obj\Debug\Vkey.vbproj.CoreCompileInputs.cache
+C:\Users\ANT VALUE\source\repos\Vkey\obj\Debug\Vkey.exe
+C:\Users\ANT VALUE\source\repos\Vkey\obj\Debug\Vkey.xml
+C:\Users\ANT VALUE\source\repos\Vkey\obj\Debug\Vkey.pdb
+C:\Users\ANT VALUE\source\repos\Vkey\bin\Debug\Vkey.exe.manifest
+C:\Users\ANT VALUE\source\repos\Vkey\bin\Debug\Vkey.application
+C:\Users\ANT VALUE\source\repos\Vkey\obj\Debug\Vkey.exe.manifest
+C:\Users\ANT VALUE\source\repos\Vkey\obj\Debug\Vkey.application
