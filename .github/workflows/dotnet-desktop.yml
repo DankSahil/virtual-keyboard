@@ -55,9 +55,9 @@ jobs:
     runs-on: windows-latest
 
     env:
-      Solution_Name: Vkey.sln                         # Your solution name
-      Wap_Project_Directory: Vkey                     # Project directory relative to the root of the repository
-      Wap_Project_Path: Vkey.vbproj             # Path to your WAP project (if applicable)
+      Solution_Name: Vkey.sln
+      Wap_Project_Directory: Vkey
+      Wap_Project_Path: Vkey\Vkey.wapproj
 
     steps:
     - name: Checkout
@@ -72,33 +72,22 @@ jobs:
 
     - name: Setup MSBuild.exe
       uses: microsoft/setup-msbuild@v2
+      with:
+        msbuild-architecture: x64  # Ensure MSBuild is set to x64 architecture
 
     # Restore dependencies
     - name: Restore dependencies
       run: dotnet restore ${{ env.Solution_Name }}
 
-    # Build the solution
+    # Build the solution with platform set to Any CPU
     - name: Build solution
-      run: dotnet build ${{ env.Solution_Name }} --configuration ${{ matrix.configuration }}
+      run: msbuild $env:Solution_Name /p:Configuration=$env:Configuration /p:Platform="Any CPU" /m:1
 
     # (Optional) Execute unit tests if you have a test project
     #- name: Execute unit tests
     #  run: dotnet test
 
-    # Restore the WAP project if it exists
-    - name: Restore the application
-      run: msbuild $env:Solution_Name /t:Restore /p:Configuration=$env:Configuration
-      env:
-        Configuration: ${{ matrix.configuration }}
-
-    # Decode the base64-encoded PFX certificate (if you need to sign your app)
-    #- name: Decode the pfx
-    #  run: |
-    #    $pfx_cert_byte = [System.Convert]::FromBase64String("${{ secrets.Base64_Encoded_Pfx }}")
-    #    $certificatePath = Join-Path -Path $env:Wap_Project_Directory -ChildPath GitHubActionsWorkflow.pfx
-    #    [IO.File]::WriteAllBytes("$certificatePath", $pfx_cert_byte)
-
-    # Create the app package (WAP project step)
+    # Create the app package
     - name: Create the app package
       run: msbuild $env:Wap_Project_Path /p:Configuration=$env:Configuration /p:UapAppxPackageBuildMode=$env:Appx_Package_Build_Mode /p:AppxBundle=$env:Appx_Bundle
       env:
@@ -106,10 +95,6 @@ jobs:
         Appx_Bundle_Platforms: x86|x64
         Appx_Package_Build_Mode: StoreUpload
         Configuration: ${{ matrix.configuration }}
-
-    # Remove the PFX (if you decoded it previously)
-    #- name: Remove the pfx
-    #  run: Remove-Item -path $env:Wap_Project_Directory\GitHubActionsWorkflow.pfx
 
     # Upload the build artifacts
     - name: Upload build artifacts
