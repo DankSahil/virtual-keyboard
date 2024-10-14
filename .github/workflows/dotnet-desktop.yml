@@ -52,14 +52,12 @@ jobs:
       matrix:
         configuration: [Debug, Release]
 
-    runs-on: windows-latest  # For a list of available runner types, refer to
-                             # https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
+    runs-on: windows-latest
 
     env:
-      Solution_Name: Vkey.sln                         # Replace with your solution name, i.e. MyWpfApp.sln.
-      #Test_Project_Path: Vkey.tests\               # Replace with the path to your test project, i.e. MyWpfApp.Tests\MyWpfApp.Tests.csproj.
-      Wap_Project_Directory: Vkey    # Replace with the Wap project directory relative to the solution, i.e. MyWpfApp.Package.
-      Wap_Project_Path: Vkey.wapproj             # Replace with the path to your Wap project, i.e. MyWpf.App.Package\MyWpfApp.Package.wapproj.
+      Solution_Name: Vkey.sln                         # Your solution name
+      Wap_Project_Directory: Vkey                     # Project directory relative to the root of the repository
+      Wap_Project_Path: Vkey\Vkey.wapproj             # Path to your WAP project (if applicable)
 
     steps:
     - name: Checkout
@@ -67,47 +65,53 @@ jobs:
       with:
         fetch-depth: 0
 
-    # Install the .NET Core workload
     - name: Install .NET Core
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.0.x
 
-    # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
     - name: Setup MSBuild.exe
       uses: microsoft/setup-msbuild@v2
 
-    # Execute all unit tests in the solution
-    - name: Execute unit tests
-      run: dotnet test
+    # Restore dependencies
+    - name: Restore dependencies
+      run: dotnet restore ${{ env.Solution_Name }}
 
-    # Restore the application to populate the obj folder with RuntimeIdentifiers
+    # Build the solution
+    - name: Build solution
+      run: dotnet build ${{ env.Solution_Name }} --configuration ${{ matrix.configuration }}
+
+    # (Optional) Execute unit tests if you have a test project
+    #- name: Execute unit tests
+    #  run: dotnet test
+
+    # Restore the WAP project if it exists
     - name: Restore the application
       run: msbuild $env:Solution_Name /t:Restore /p:Configuration=$env:Configuration
       env:
         Configuration: ${{ matrix.configuration }}
 
-    # Decode the base 64 encoded pfx and save the Signing_Certificate
-    - name: Decode the pfx
-      run: |
-        $pfx_cert_byte = [System.Convert]::FromBase64String("${{ secrets.Base64_Encoded_Pfx }}")
-        $certificatePath = Join-Path -Path $env:Wap_Project_Directory -ChildPath GitHubActionsWorkflow.pfx
-        [IO.File]::WriteAllBytes("$certificatePath", $pfx_cert_byte)
+    # Decode the base64-encoded PFX certificate (if you need to sign your app)
+    #- name: Decode the pfx
+    #  run: |
+    #    $pfx_cert_byte = [System.Convert]::FromBase64String("${{ secrets.Base64_Encoded_Pfx }}")
+    #    $certificatePath = Join-Path -Path $env:Wap_Project_Directory -ChildPath GitHubActionsWorkflow.pfx
+    #    [IO.File]::WriteAllBytes("$certificatePath", $pfx_cert_byte)
 
-    # Create the app package by building and packaging the Windows Application Packaging project
+    # Create the app package (WAP project step)
     - name: Create the app package
-      run: msbuild $env:Wap_Project_Path /p:Configuration=$env:Configuration /p:UapAppxPackageBuildMode=$env:Appx_Package_Build_Mode /p:AppxBundle=$env:Appx_Bundle /p:PackageCertificateKeyFile=GitHubActionsWorkflow.pfx /p:PackageCertificatePassword=${{ secrets.Pfx_Key }}
+      run: msbuild $env:Wap_Project_Path /p:Configuration=$env:Configuration /p:UapAppxPackageBuildMode=$env:Appx_Package_Build_Mode /p:AppxBundle=$env:Appx_Bundle
       env:
         Appx_Bundle: Always
         Appx_Bundle_Platforms: x86|x64
         Appx_Package_Build_Mode: StoreUpload
         Configuration: ${{ matrix.configuration }}
 
-    # Remove the pfx
-    - name: Remove the pfx
-      run: Remove-Item -path $env:Wap_Project_Directory\GitHubActionsWorkflow.pfx
+    # Remove the PFX (if you decoded it previously)
+    #- name: Remove the pfx
+    #  run: Remove-Item -path $env:Wap_Project_Directory\GitHubActionsWorkflow.pfx
 
-    # Upload the MSIX package: https://github.com/marketplace/actions/upload-a-build-artifact
+    # Upload the build artifacts
     - name: Upload build artifacts
       uses: actions/upload-artifact@v3
       with:
