@@ -57,7 +57,7 @@ jobs:
     env:
       Solution_Name: Vkey.sln                         # Your solution name
       Wap_Project_Directory: Vkey                     # Project directory relative to the root of the repository
-      Wap_Project_Path: Vkey\Vkey.wapproj             # Path to your WAP project (if applicable)
+      Wap_Project_Path: Vkey.vbproj             # Path to your WAP project (if applicable)
 
     steps:
     - name: Checkout
